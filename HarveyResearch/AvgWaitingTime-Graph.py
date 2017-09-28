@@ -21,71 +21,52 @@ dpFile = '/Volumes/Buffalo/HarveyResearch/Graph_Data/AllOut_dynamic_priority.txt
 py.sign_in('JStuve', 'mVRUE6CCF94yvNnRxeuu') # Replace the username, and API key with your credentials.
 
 
-def readData(file):
+def AvgWaitData(file):
+    avgHour = [] 
     with open(file, 'r', encoding='utf8', errors='ignore') as dataFile:
-        days = []
-        hours = []
-        secList = []
+        rescueeNumber = 0
+        rescueeList = []
+        secInQue = []
         for line in dataFile:
             splitLine = line.split(',')
             if(len(splitLine) == 8):
                 
-                timeInSys = splitLine[7].split(' ')[2].replace('\n','')
-                secondsInSys = time.strptime(timeInSys,'%H:%M:%S')
-                secondsInSys = datetime.timedelta(hours=secondsInSys.tm_hour,minutes=secondsInSys.tm_min,seconds=secondsInSys.tm_sec).total_seconds()
-                day = splitLine[1].split(' ')[3];
-                hour = splitLine[1].split(' ')[4].split(':')[0]
+                timeInQue = splitLine[6].split(' ')[2].replace('\n','')
+                secondsInQue = time.strptime(timeInQue,'%H:%M:%S')
+                secondsInQue = datetime.timedelta(hours=secondsInQue.tm_hour,minutes=secondsInQue.tm_min,seconds=secondsInQue.tm_sec).total_seconds()
 
-                days.append(day)
-                hours.append(hour)
-                secList.append(secondsInSys)
-    return AvgWaitingData(days, hours, secList)
+                rescueeNumber = rescueeNumber + 1
+                rescueeList.append(rescueeNumber)
+                secInQue.append(secondsInQue)
+    
+    
+    for i in range(0, len(rescueeList)):
+        s = sumRange(secInQue, 0, i)/rescueeList[i]
+        m = s / 60
+        h = m / 60
+        avgHour.append(h)
+        
+#    print(rescueeList)
+#    print(avgHour)
+    return rescueeList, avgHour
 
-def AvgWaitingData(d,h,s):
-    xAxis = []
-    yAxis = []
-    
-    peopleCount = 0
-    secSum = 0
-    prevHr = 0
-    prevDay = 27
-    peopleCount = 0 
-    
-    i = 0
-    
-    for day in d:
-        if(h[i] != prevHr):
-            m, sec = divmod(secSum, 60)
-            hr, m = divmod(m, 60)
-            #print("Days: {},{}:00 In Que: {} Avg Wait: {}.{} hrs".format(prevDay, prevHr, peopleCount, int(hr),int(m)))
-            try:
-                xAxis.append(float("{}.{}".format(int(hr), int(m)))/peopleCount)
-            except ZeroDivisionError:
-                xAxis.append(float("{}.{}".format(int(hr), int(m))))
-            yAxis.append(peopleCount)
-            secSum = 0
-            peopleCount = 0
-            prevHr = h[i]    
-            if (day != prevDay):
-                prevDay = day
-        secSum = secSum + s[i]
-        peopleCount = peopleCount + 1
-        i = i + 1    
-    AVGWaitingTime = yAxis
-    NumPeople= xAxis
-    #return x,y
-    return AVGWaitingTime, NumPeople
+
+def sumRange(List,startIndex,endIndex):                                                                                                                                                                                                
+    sum = 0                                                                                                                                                                                                         
+    for i in range(startIndex,endIndex+1,1):                                                                                                                                                                                        
+        sum += List[i]                                                                                                                                                                                                  
+    return sum
 
 
 if __name__ == "__main__":
     print("Collecting data from files...")
-    npX, npY = readData(npFile)
-    pX, pY = readData(pFile)
-    dpX, dpY = readData(dpFile)
+    npX, npY = AvgWaitData(npFile)
+    pX, pY = AvgWaitData(pFile)
+    dpX, dpY = AvgWaitData(dpFile)
     
-    npX, npY = (list(x) for x in zip(*sorted(zip(npX, npY))))
-    pX, pY = (list(x) for x in zip(*sorted(zip(pX, pY))))
-    dpX, dpY = (list(x) for x in zip(*sorted(zip(dpX, dpY))))
+    #npX, npY = (list(x) for x in zip(*sorted(zip(npX, npY))))
+    #pX, pY = (list(x) for x in zip(*sorted(zip(pX, pY))))
+    #dpX, dpY = (list(x) for x in zip(*sorted(zip(dpX, dpY))))
 
  
     #Create a trace for each readData() values above
