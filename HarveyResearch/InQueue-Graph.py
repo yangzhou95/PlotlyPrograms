@@ -44,7 +44,7 @@ def InQueueData(file):
                     
                     dateIndex = date.index("Aug " + dayArrived + ", " + str(int(hourArrived)) + ":00") #Index of hour person is in queue
                     count[dateIndex] = count[dateIndex] + 1
-                    for extraHour in range(1, int(hoursInQueue)):
+                    for extraHour in range(1, int(hoursInQueue)-1):
                         count[dateIndex + extraHour] = count[dateIndex + extraHour] + 1
 
     return date, count
@@ -78,7 +78,7 @@ if __name__ == "__main__":
         x=npX,
         y=npY,
         mode='lines',
-        name="Non-Priority",
+        name="FCFS",
         hoverinfo='FCFS',
         line=dict(
             shape='hv'
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         x=dpX,
         y=dpY,
         mode='lines',
-        name="Dynamic Priority",
+        name="Hybrid Scheduling",
         hoverinfo='FCFS',
         line=dict(
             shape='hv'
@@ -104,24 +104,41 @@ if __name__ == "__main__":
         heigth = 900,
         xaxis = dict(
             title = "Time of Day",
+            titlefont = dict(
+                    size = 20,
+                    color = "#000"
+            ),
+            tickfont = dict(
+                    size = 14,
+                    color = "#000"
+            ),
             showgrid = False,
             range=[83,102],
             ticks='outside',
             dtick=4
-            ),
+        ),
         yaxis = dict(
             title = "Number of People in Queue",
-            showgrid = False,
+            titlefont = dict(
+                    size = 20,
+                    color = "#000"
             ),
+            tickfont = dict(
+                    size = 14,
+                    color = "#000"
+            ),
+            showgrid = False,
+        ),
         legend=dict(
             y=0.5,
             traceorder='reversed',
             font=dict(
-                size=12
+                size = 20,
+                color = "#000"
             )
         )
     )
         
     fig = dict(data=data, layout=layout)
-    py.image.save_as(fig, filename='InQue_4.png')
+    py.image.save_as(fig, filename='InQue_6.png')
     print("Graph Completed.")
