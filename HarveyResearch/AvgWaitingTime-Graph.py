@@ -83,7 +83,7 @@ if __name__ == "__main__":
         x=npX,
         y=npY,
         mode='lines',
-        name="Non-Priority",
+        name="FCFS",
         hoverinfo='NP',   
     )
     
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         x=dpX,
         y=dpY,
         mode='lines',
-        name="Dynamic Priority",
+        name="Hybrid Scheduling",
         hoverinfo='DP',   
     )
         
@@ -99,38 +99,41 @@ if __name__ == "__main__":
     
     layout = dict(
         width = 900,
-        heigth = 2000,
-        showgrid = False,
+        heigth = 900,
         xaxis = dict(
             showgrid = False,
             title = "Number of People",
             titlefont = dict(
-                    size = 18,
+                    size = 20,
+                    color = "#000"
             ),
             tickfont = dict(
-                    size = 18,
+                    size = 14,
+                    color = "#000"
             ),
         ),
         yaxis = dict(
             showgrid = False,
-            autosize = False,
             title = "Average Waiting Time(Hours)",
             titlefont = dict(
-                    size = 18,
+                    size = 20,
+                    color = "#000"
             ),
             tickfont = dict(
-                    size = 18,
+                    size = 14,
+                    color = "#000"
             ),
         ),
         legend=dict(
             y=0.5,
             traceorder='reversed',
             font=dict(
-                size=16
+                size = 20,
+                color = "#000"
             )
         )
     )
         
     fig = dict(data=data, layout=layout)
-    py.image.save_as(fig, filename='AvgWait_3.png')
+    py.image.save_as(fig, filename='AvgWait_4.png')
     print("Graph Completed.")
