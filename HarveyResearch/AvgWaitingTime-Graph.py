@@ -99,25 +99,38 @@ if __name__ == "__main__":
     
     layout = dict(
         width = 900,
-        heigth = 900,
+        heigth = 2000,
         showgrid = False,
         xaxis = dict(
             showgrid = False,
-            title = "Number of People"
-                ),
+            title = "Number of People",
+            titlefont = dict(
+                    size = 18,
+            ),
+            tickfont = dict(
+                    size = 18,
+            ),
+        ),
         yaxis = dict(
             showgrid = False,
-            title = "Average Waiting Time(Hours)"
-                ),
+            autosize = False,
+            title = "Average Waiting Time(Hours)",
+            titlefont = dict(
+                    size = 18,
+            ),
+            tickfont = dict(
+                    size = 18,
+            ),
+        ),
         legend=dict(
             y=0.5,
             traceorder='reversed',
             font=dict(
-                size=12
+                size=16
             )
         )
     )
         
     fig = dict(data=data, layout=layout)
-    py.image.save_as(fig, filename='AvgWait_2.png')
+    py.image.save_as(fig, filename='AvgWait_3.png')
     print("Graph Completed.")
